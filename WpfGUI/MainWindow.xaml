@@ -1,0 +1,32 @@
+﻿<Window x:Class="WpfGUI.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:WpfGUI"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800">
+	<Grid Margin="10">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="auto" />
+			<ColumnDefinition Width="*" />
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*" />
+			<RowDefinition Height="*" />
+		</Grid.RowDefinitions>
+
+		<Button Grid.Row="1" Grid.Column="1" Click="Button_Click"  FontFamily= "{StaticResource IBM_Plex_Font}" Margin="50">Bad action !</Button>
+		<DockPanel Grid.Row="0" Grid.Column="1">
+			<WrapPanel HorizontalAlignment="Center" DockPanel.Dock="Top" Margin="0,0,0,10">
+			</WrapPanel>
+			<TextBox Name="txtEditor" TextWrapping="Wrap" />
+		</DockPanel>
+		<WrapPanel Orientation="Vertical">
+			<Button Name="btnOpenFile" Click="btnOpenFile_Click">Open file</Button>
+			<Label>Удалить не алфавитно-цифровые символы</Label>
+			<Button Name="btnRemoveNonAlphaNum" Click="btnRemoveNonAlphaNum_Click">Удалить</Button>
+			<Button Name="btnExit" Click="btnExit_Click">Exit</Button>
+		</WrapPanel>
+	</Grid>
+</Window>
