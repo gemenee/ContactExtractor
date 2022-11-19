@@ -1,47 +1,49 @@
-# coding: utf-8
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 
-
-#import cProfile
 import sys
+import person
+
+sys.setdefaultencoding('UTF8')
 
 sys.path.insert(0, '..')
 
-from  import person
-
-def init_extractor():
-    gnc = gnc_relation()
-    tokenizer = MorphTokenizer().add_rules(EMAIL_RULE, PHONE_RULE)
-    org_names = fill_synonyms(ORG_NAMES)
-    parser = Parser(PERSON, tokenizer)
+gnc = person.gnc_relation()
+tokenizer = person.MorphTokenizer().add_rules(person.EMAIL_RULE, person.PHONE_RULE)
+org_names = person.fill_synonyms(person.ORG_NAMES)
+parser = person.Parser(person.PERSON, tokenizer)
 
 testText = '''Заместитель начальника организационно-экономического отдела управления Пенсионного фонда Иван Семенович Гостюхин (+71234567890, i.s.gostiuhin@gmail.com).
 Оперативный сотрудник 3 отдела полиции Злыбин О.П. (89876543210).
 Преподаватель Пензенского государственного университета Замутин Георгий Сергеевич (+71029384756).
 Антонов Григорий Васильевич (+71134567890, gvantonov@mail.ru)'''
 
+
 def extract_facts(text):
     text = text.replace('(', '')
     text = text.replace(')', '')
     text = text.replace('использует телефоный номер', '')
     text = text.replace(' телефон', '')
-    pr = cProfile.Profile()
-    pr.enable()
+    # pr = cProfile.Profile()
+    # pr.enable()
     persons = []
     for match in parser.findall(text):
         persons.append(match.fact)
-    pr.disable    # original_stdout = sys.stdout  # Save a reference to the original standard output
+    # pr.disable    # original_stdout = sys.stdout  # Save a reference to the original standard output
     # with open('result.txt', 'w') as f:
     #     sys.stdout = f  # Change the standard output to the file we created.
     #         print(match)
     #     sys.stdout = original_stdout  # Reset the standard output to its original value()
     # after your program ends
     original_stdout = sys.stdout
-    with open('../../CorpusReader/dump.txt', 'w') as dump:
-        sys.stdout = dump
-        pr.print_stats(sort="calls")
-        sys.stdout = original_stdout
+    # with open('../../CorpusReader/dump.txt', 'w') as dump:
+    #     sys.stdout = dump
+    #     pr.print_stats(sort="calls")
+    #     sys.stdout = original_stdout
     return persons
-#print(persons)
+
+
+# print(persons)
 
 def save_facts(facts):
     original_stdout = sys.stdout  # Save a reference to the original standard output
@@ -51,9 +53,11 @@ def save_facts(facts):
             print(f.contacts.phone)
         sys.stdout = original_stdout  # Reset the standard output to its original value
 
+
 def print_facts(facts):
     for fact in facts:
         print(fact)
+
 
 # text = '''заместитель начальника организационно-экономического отдела управления Пенсионного фонда Иван Семенович Гостюхин (+71234567890, i.s.gostiuhin@gmail.com)
 # Оперативный сотрудник 3 отдела полиции Злобин О.П. (89876543210)
@@ -61,9 +65,6 @@ def print_facts(facts):
 # Григорий Васильевич Антонов (+71134567890, gvantonov@mail.ru)'''
 
 
-init_extractor()
 facts = extract_facts(testText)
 print_facts(facts)
 # save_facts(facts)
-
-

@@ -1,5 +1,5 @@
 #!/usr/bin/env python
-# coding: utf-8
+# -*- coding: utf-8 -*-
 
 from natasha.grammars.name import NAME
 from yargy.relations import gnc_relation
