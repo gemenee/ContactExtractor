@@ -9,10 +9,12 @@
 
   <ItemGroup>
     <PackageReference Include="DocX" Version="2.3.0" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
+    <PackageReference Include="System.Text.Encoding.CodePages" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Persistance\" />
+    <ProjectReference Include="..\PythonTextApp\YargyExtractionCore.csproj" />
   </ItemGroup>
 
 </Project>
