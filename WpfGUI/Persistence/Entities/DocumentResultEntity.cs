@@ -1,6 +1,6 @@
 ﻿namespace PersonContactExtractor.Persistance.Entities;
 
-public class DocumentResultEntity
+public class DocumentResultEntity : BaseEntity
 {
     public int DocumentId { get; set; }
     public int ResultId { get; set; }

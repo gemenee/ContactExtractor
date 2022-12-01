@@ -6,10 +6,32 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UserSecretsId>e0d10794-d643-411e-a8d8-18f83add9902</UserSecretsId>
     <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+    <DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="PageModels\BufferedSingleFileUploadDbModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="PageModels\BufferedSingleFileUploadDbModel.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.0">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
+    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Data\NewFolder\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\WpfGUI\PersonContactExtractor.csproj" />
   </ItemGroup>
 
 </Project>

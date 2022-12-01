@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YargyExtractionCore", "Pyth
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonContactExtractor", "WpfGUI\PersonContactExtractor.csproj", "{5065265A-5F79-4D39-99A9-73018A4088EA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlazorWebApplication", "BlazorWebApplication\BlazorWebApplication.csproj", "{814264FC-94B5-4466-A94E-83255EF1E2C2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWebApplication", "BlazorWebApplication\BlazorWebApplication.csproj", "{814264FC-94B5-4466-A94E-83255EF1E2C2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
