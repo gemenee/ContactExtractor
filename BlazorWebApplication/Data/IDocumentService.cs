@@ -1,0 +1,8 @@
+﻿namespace BlazorWebApplication;
+
+public interface IDocumentService
+{
+    public DocumentModel[] GetDocuments();
+
+    public Task AddAsync(string FilePath, string originFileName);
+}

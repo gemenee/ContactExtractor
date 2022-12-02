@@ -1,10 +1,12 @@
 ﻿@page "/file-upload"
+
 @using System 
 @using System.IO
 @using Microsoft.AspNetCore.Hosting
 @using Microsoft.Extensions.Logging
 @inject ILogger<FileUpload> Logger
 @inject IWebHostEnvironment Environment
+@inject IDocumentService DocumentService
 
 <h3>Upload Files</h3>
 
@@ -74,6 +76,7 @@ else
 
                 await using FileStream fs = new(path, FileMode.Create);
                 await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+                DocumentService.AddAsync(path, file.Name); 
             }
             catch (Exception ex)
             {

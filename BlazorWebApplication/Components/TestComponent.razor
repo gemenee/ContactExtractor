@@ -1,0 +1,12 @@
+﻿<h3>TestComponent</h3>
+
+<p>@text</p>
+
+@code {
+		string text = "Hello from test not initialized component";
+
+protected override async Task OnInitializedAsync()
+	{
+		text = "Hello from test component";
+	}
+}

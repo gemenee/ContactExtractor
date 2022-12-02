@@ -5,7 +5,7 @@ VisualStudioVersion = 17.3.32804.467
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "YargyExtractionCore", "PythonTextApp\YargyExtractionCore.csproj", "{F2BC693E-8DAA-44CC-B2F2-7A486CB34360}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonContactExtractor", "WpfGUI\PersonContactExtractor.csproj", "{5065265A-5F79-4D39-99A9-73018A4088EA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PersonContactExtractor", "PersonContactExtractor\PersonContactExtractor.csproj", "{5065265A-5F79-4D39-99A9-73018A4088EA}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorWebApplication", "BlazorWebApplication\BlazorWebApplication.csproj", "{814264FC-94B5-4466-A94E-83255EF1E2C2}"
 EndProject

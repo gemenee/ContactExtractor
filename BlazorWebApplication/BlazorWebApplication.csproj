@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -10,10 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="PageModels\BufferedSingleFileUploadDbModel.cs" />
-  </ItemGroup>
-
-  <ItemGroup>
+    <Content Include="Data\FileService.cs" />
     <Content Include="PageModels\BufferedSingleFileUploadDbModel.cs" />
   </ItemGroup>
 
@@ -22,16 +19,12 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.17.0" />
-    <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Data\NewFolder\" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\WpfGUI\PersonContactExtractor.csproj" />
+    <ProjectReference Include="..\PersonContactExtractor\PersonContactExtractor.csproj" />
   </ItemGroup>
 
 </Project>
