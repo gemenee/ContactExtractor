@@ -4,9 +4,9 @@ using Xceed.Words.NET;
 
 namespace TextPreparation
 {
-	public class DocxTextExtractor
+	public class DocxTextExtractor : IDocxTextExtractor
 	{
-		public static string ExtractText(FileInfo file)
+		public string ExtractText(FileInfo file)
 		{
 			string result;
 			using (var document = DocX.Load(file.FullName))
@@ -17,7 +17,7 @@ namespace TextPreparation
 			return result;
 		}
 
-		public static string ExtractText(string fullFileName)
+		public string ExtractText(string fullFileName)
 		{
 			string result;
 			using (var document = DocX.Load(fullFileName))
@@ -26,6 +26,10 @@ namespace TextPreparation
 			}
 
 			return result;
+		}
+
+		public void SaveTextToFile(string text)
+		{
 		}
 
 		public static string RemoveNonAlphanumericSymbols(string text)
