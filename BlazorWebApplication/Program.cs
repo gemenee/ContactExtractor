@@ -1,6 +1,8 @@
 using BlazorWebApplication.Data;
 using PersonContactExtractor.Persistance;
 using Microsoft.EntityFrameworkCore;
+using PersonContactExtractor;
+using TextPreparation;
 
 namespace BlazorWebApplication
 {
@@ -14,6 +16,10 @@ namespace BlazorWebApplication
 			builder.Services.AddRazorPages();
 			builder.Services.AddServerSideBlazor();
 			builder.Services.AddSingleton<WeatherForecastService>();
+			builder.Services.AddSingleton<IFileService, FileService>();
+			builder.Services.AddHttpClient();
+			builder.Services.AddSingleton<IDocumentProcessor, DocumentProcessor>();
+			builder.Services.AddSingleton<IDocxTextExtractor, DocxTextExtractor>();
 			builder.Services.AddDbContext<ContactExtractorContext>(options =>
 				options.UseSqlite("Filename=ContactExtractor.db"));
 			builder.Services.AddScoped<IDocumentService, DocumentService>();

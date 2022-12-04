@@ -23,6 +23,7 @@ public class DocumentService : IDocumentService
 		{
 			result.Add(new DocumentModel()
 			{
+				Id = doc.Id,
 				OriginFileName = doc.OriginFileName,
 				Size = doc.SizeInBytes,
 				IsProcessed = doc.Processed,
