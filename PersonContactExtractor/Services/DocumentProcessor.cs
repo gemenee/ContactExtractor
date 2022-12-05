@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Net.Http;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -15,23 +16,23 @@ public class DocumentProcessor : IDocumentProcessor
         _clientFactory = clientFactory;
     }
 
-    public async Task<TestDto> ProcessDocumentAsync(int documentId)
+    public async Task<ResponseDto[]> ProcessDocumentAsync(int documentId)
     {
         var request = new HttpRequestMessage(HttpMethod.Post,
-            "http://localhost:8000/extract");
-        request.Content = new StringContent("hello from HTTP POST");
+            "http://localhost:5000/extract");
+        request.Content = new StringContent("Заместитель начальника организационно-экономического отдела управления Пенсионного фонда Иван Семенович Гостюхин (+71234567890, i.s.gostiuhin@gmail.com). Оперативный сотрудник 3 отдела полиции Злыбин О.П. (89876543210). Преподаватель Пензенского государственного университета Замутин Георгий Сергеевич (+71029384756). Антонов Григорий Васильевич (+71134567890, gvantonov@mail.ru)");
 
         var client = _clientFactory.CreateClient();
 
         var response = await client.SendAsync(request);
-        TestDto result = new TestDto();
+        ResponseDto[] result;
 
         if (response.IsSuccessStatusCode)
         {
             using var responseStream = await response.Content.ReadAsStreamAsync();
-            result = await JsonSerializer.DeserializeAsync<TestDto>(responseStream);
+            result = await JsonSerializer.DeserializeAsync<ResponseDto[]>(responseStream);
         }
 
-        return result;
+        return Array.Empty<ResponseDto>();
     }
 }
