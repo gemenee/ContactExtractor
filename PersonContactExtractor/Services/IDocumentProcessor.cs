@@ -5,5 +5,5 @@ namespace PersonContactExtractor;
 
 public interface IDocumentProcessor
 {
-    Task<ResponseDto[]> ProcessDocumentAsync(int documentId);
+    Task ProcessDocumentAsync(int documentId);
 }

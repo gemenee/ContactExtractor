@@ -4,6 +4,7 @@ namespace PersonContactExtractor.Persistance;
 
 public class ResultEntity : BaseEntity
 {
-	public DocumentEntity Document { get; set; }
-	public List<PersonContacts> Persons { get; set; }
+    public int DocumentId { get; set; }
+    public DocumentEntity Document { get; set; }
+    public List<PersonContacts> Persons { get; set; }
 }

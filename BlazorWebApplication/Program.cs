@@ -17,8 +17,9 @@ namespace BlazorWebApplication
 			builder.Services.AddServerSideBlazor();
 			builder.Services.AddSingleton<WeatherForecastService>();
 			builder.Services.AddSingleton<IFileService, FileService>();
+			builder.Services.AddScoped<IResultService, ResultService>();
 			builder.Services.AddHttpClient();
-			builder.Services.AddSingleton<IDocumentProcessor, DocumentProcessor>();
+			builder.Services.AddScoped<IDocumentProcessor, DocumentProcessor>();
 			builder.Services.AddSingleton<IDocxTextExtractor, DocxTextExtractor>();
 			builder.Services.AddDbContext<ContactExtractorContext>(options =>
 				options.UseSqlite("Filename=ContactExtractor.db"));

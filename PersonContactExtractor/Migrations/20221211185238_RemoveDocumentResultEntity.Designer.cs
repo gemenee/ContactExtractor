@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PersonContactExtractor.Persistance;
 
@@ -10,9 +11,11 @@ using PersonContactExtractor.Persistance;
 namespace PersonContactExtractor.Migrations
 {
     [DbContext(typeof(ContactExtractorContext))]
-    partial class ContactExtractorContextModelSnapshot : ModelSnapshot
+    [Migration("20221211185238_RemoveDocumentResultEntity")]
+    partial class RemoveDocumentResultEntity
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "7.0.0");
@@ -78,24 +81,30 @@ namespace PersonContactExtractor.Migrations
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Email")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("FirstName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("MiddleName")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<int?>("OrganizationId")
+                    b.Property<int>("OrganizationId")
                         .HasColumnType("INTEGER");
 
                     b.Property<string>("Phone")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Position")
+                        .IsRequired()
                         .HasColumnType("TEXT");
 
                     b.Property<int>("ResultEntityId")
@@ -134,7 +143,9 @@ namespace PersonContactExtractor.Migrations
                 {
                     b.HasOne("PersonContactExtractor.Persistance.OrganizationEntity", "Organization")
                         .WithMany()
-                        .HasForeignKey("OrganizationId");
+                        .HasForeignKey("OrganizationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.HasOne("PersonContactExtractor.Persistance.ResultEntity", "ResultEntity")
                         .WithMany("Persons")
