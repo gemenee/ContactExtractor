@@ -1,56 +1,69 @@
 ﻿@using PersonContactExtractor
 @inject IDocumentService DocumentService
 @inject IDocumentProcessor DocumentProcessor
+@inject NavigationManager UriHelper
 
 <h3>FileTable</h3>
 @if (docs.Length == 0)
 {
-    <tr>
-        <td>нет файлов</td>
-    </tr>
+	<tr>
+		<td>нет файлов</td>
+	</tr>
 }
 else
 {
-    <h4>Загруженные документы:</h4>
-    <table class="table table-striped">
-        <thead>
-        <th scope="col">#</th>
-        <th scope="col">Имя файла</th>
-        <th scope="col">Размер в байтах</th>
-        <th scope="col">Текстовый файл</th>
-        <th scope="col">Обработан</th>
-        </thead>
-        <tbody>
+	<h4>Загруженные документы:</h4>
+	<table class="table table-striped">
+		<thead>
+		<th scope="col">#</th>
+		<th scope="col">Имя файла</th>
+		<th scope="col">Размер в байтах</th>
+		<th scope="col">Текстовый файл</th>
+		<th scope="col">Обработан</th>
+		</thead>
+		<tbody>
 
-        @for (int i = 0; i < docs.Length; i++)
-        {
-            <tr>
-                <th scope="row">@(i + 1)</th>
-                <td>@docs[i].OriginFileName</td>
-                <td>@docs[i].Size</td>
-                <td>@docs[i].PlainTextFilePath</td>
-                <td>@docs[i].IsProcessed</td>
-                <td>
-                    @if (!docs[i].IsProcessed)
-                    {
-                        var id =docs[i].Id;
-                        <button @onclick="@(e => DocumentProcessor.ProcessDocumentAsync(id))">
-                            извлечь
-                        </button>
-                    }
+			@for (int i = 0; i < docs.Length; i++)
+			{
+				<tr>
+					<th scope="row">@(i + 1)</th>
+					<td>@docs[i].OriginFileName</td>
+					<td>@docs[i].Size</td>
+					<td>@docs[i].PlainTextFilePath</td>
+					<td>@docs[i].IsProcessed</td>
+					<td>
+						@if (!docs[i].IsProcessed)
+						{
+							var id = docs[i].Id;
+							<button @onclick="@(e => DocumentProcessor.ProcessDocumentAsync(id))">
+								извлечь
+							</button>
+						}
+						else
+						{
+							var id = docs[i].Id;
+							<button @onclick="@(e => UriHelper.NavigateTo("results/" + id))">
+								результат
+							</button>
+						}
 
-                </td>
-            </tr>
-        }
-        </tbody>
-    </table>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
 }
 
 @code {
-    private DocumentModel[]? docs;
+	private DocumentModel[]? docs;
 
-    protected override async Task OnInitializedAsync()
-    {
-        docs = DocumentService.GetDocuments();
-    }
+	protected override async Task OnInitializedAsync()
+	{
+		docs = DocumentService.GetDocuments();
+	}
+
+	private void GoToPage(string pageAddress)
+	{
+
+	}
 }

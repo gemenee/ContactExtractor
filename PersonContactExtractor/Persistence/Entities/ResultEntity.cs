@@ -6,5 +6,5 @@ public class ResultEntity : BaseEntity
 {
     public int DocumentId { get; set; }
     public DocumentEntity Document { get; set; }
-    public List<PersonContacts> Persons { get; set; }
+    public virtual List<PersonContacts> Persons { get; set; }
 }

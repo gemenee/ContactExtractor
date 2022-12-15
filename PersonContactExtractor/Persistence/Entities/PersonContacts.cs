@@ -9,5 +9,5 @@ public class PersonContacts : BaseEntity
     public OrganizationEntity? Organization { get; set; }
     public string? Phone { get; set; }
     public string? Email { get; set; }
-    public ResultEntity ResultEntity { get; set; }
+    public virtual ResultEntity ResultEntity { get; set; }
 }

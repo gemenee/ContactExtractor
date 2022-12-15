@@ -19,7 +19,12 @@ namespace BlazorWebApplication
 
         public async Task<ResultEntity> GetResultAsync(int documentId)
         {
-            return await _db.Results.SingleAsync(r => r.DocumentId == documentId); ;
+
+            return await _db.Results
+                .Include(r => r.Persons)
+                .ThenInclude(p => p.Organization)
+                .SingleAsync(r => r.DocumentId == documentId);
+            
         }
     }
 }

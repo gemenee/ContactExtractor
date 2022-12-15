@@ -2,7 +2,7 @@
 @using PersonContactExtractor.Persistance;
 @inject IResultService ResultService
 
-@if (result is not null)
+@if (result is null)
 {
     <tr>
         <td>нет результатов</td>
@@ -34,8 +34,8 @@ else
                     <td>@result.Persons[i].MiddleName</td>
                     <td>@result.Persons[i].Phone</td>
                     <td>@result.Persons[i].Email</td>
-                    <td>@result.Persons[i].Organization.Name</td>
-                    <td>@result.Persons[i].Organization.Subdivision</td>
+                    <td>@result.Persons[i].Organization?.Name</td>
+                    <td>@result.Persons[i].Organization?.Subdivision</td>
                     <td>@result.Persons[i].Position</td>
                 </tr>
             }
