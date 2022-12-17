@@ -25,6 +25,7 @@ public class DocumentService : IDocumentService
 			{
 				Id = doc.Id,
 				OriginFileName = doc.OriginFileName,
+				UploadDate = doc.CreationDateTimeUtc.ToShortDateString(),
 				Size = doc.SizeInBytes,
 				IsProcessed = doc.Processed,
 				PlainTextFilePath = doc.PlainTextFilePath

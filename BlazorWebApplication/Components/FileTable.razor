@@ -3,11 +3,10 @@
 @inject IDocumentProcessor DocumentProcessor
 @inject NavigationManager UriHelper
 
-<h3>FileTable</h3>
 @if (docs.Length == 0)
 {
 	<tr>
-		<td>нет файлов</td>
+		<td>нет загруженных документов</td>
 	</tr>
 }
 else
@@ -17,21 +16,35 @@ else
 		<thead>
 		<th scope="col">#</th>
 		<th scope="col">Имя файла</th>
+		<th scope="col">Дата загрузки</th>
 		<th scope="col">Размер в байтах</th>
 		<th scope="col">Текстовый файл</th>
 		<th scope="col">Обработан</th>
+		<th scope="col"> </th>
 		</thead>
 		<tbody>
 
 			@for (int i = 0; i < docs.Length; i++)
 			{
+				bool isProcessed = docs[i].IsProcessed;
 				<tr>
 					<th scope="row">@(i + 1)</th>
 					<td>@docs[i].OriginFileName</td>
-					<td>@docs[i].Size</td>
+					<td style="text-align: center">@docs[i].UploadDate</td>
+					<td style="text-align: center">@docs[i].Size</td>
 					<td>@docs[i].PlainTextFilePath</td>
-					<td>@docs[i].IsProcessed</td>
-					<td>
+					<td style="text-align: center">
+						@if (docs[i].IsProcessed)
+						{
+							<span class="oi oi-check" aria-hidden="true"></span>
+						}
+						else
+						{
+							<span class="oi oi-dash" aria-hidden="true"></span>
+						}
+
+					</td>
+					<td style="text-align: center">
 						@if (!docs[i].IsProcessed)
 						{
 							var id = docs[i].Id;
