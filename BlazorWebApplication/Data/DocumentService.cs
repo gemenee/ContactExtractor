@@ -1,4 +1,5 @@
-﻿using PersonContactExtractor.Persistance;
+﻿using Microsoft.EntityFrameworkCore;
+using PersonContactExtractor.Persistance;
 using TextPreparation;
 
 namespace BlazorWebApplication;
@@ -19,7 +20,7 @@ public class DocumentService : IDocumentService
 	public DocumentModel[] GetDocuments()
 	{
 		var result = new List<DocumentModel>();
-		foreach (var doc in _db.Documents)
+		foreach (var doc in _db.Documents.AsNoTracking())
 		{
 			result.Add(new DocumentModel()
 			{
@@ -49,5 +50,13 @@ public class DocumentService : IDocumentService
 			PlainTextFilePath = plainTextFileName
 		});
 		await _db.SaveChangesAsync();
+	}
+
+	public async Task DeleteAsync(int documentId)
+	{
+		var document = new DocumentEntity { Id= documentId };
+		_db.Attach(document);
+		_db.Remove(document);
+		_db.SaveChangesAsync();
 	}
 }
