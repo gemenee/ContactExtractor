@@ -1,5 +1,5 @@
 ﻿using System.IO;
-using System.Text.RegularExpressions;
+using System.Text;
 using Xceed.Words.NET;
 
 namespace TextPreparation
@@ -22,7 +22,14 @@ namespace TextPreparation
 			string result;
 			using (var document = DocX.Load(fullFileName))
 			{
-				result = document.Text;
+				var sb = new StringBuilder();
+				foreach(var p in document.Paragraphs)
+				{
+					if(!string.IsNullOrWhiteSpace(p.Text))
+						sb.AppendLine(p.Text);
+				}
+
+				result = sb.ToString();
 			}
 
 			return result;
@@ -30,14 +37,7 @@ namespace TextPreparation
 
 		public void SaveTextToFile(string text)
 		{
-		}
 
-		public static string RemoveNonAlphanumericSymbols(string text)
-		{
-			Regex rgxNonAlphaNum = new Regex("[^a-zA-Zа-яА-Я0-9 -]");
-			text = rgxNonAlphaNum.Replace(text, " ");
-			Regex rgxWhiteSpaces = new Regex("[[:blank:]]{ 2,}");
-			return rgxWhiteSpaces.Replace(text, "");
 		}
 	}
 }

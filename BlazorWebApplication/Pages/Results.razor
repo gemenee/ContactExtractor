@@ -4,57 +4,55 @@
 
 <PageTitle>Результаты обработки</PageTitle>
 
-
 @if (result is null)
 {
-    <tr>
-        <td>нет результатов</td>
-    </tr>
+	<tr>
+		<td>нет результатов</td>
+	</tr>
 }
 else
 {
-    <h4>Результаты обработки:</h4>
-    <table class="table table-striped">
-        <thead>
-        <th scope="col">#</th>
-        <th scope="col">Имя</th>
-        <th scope="col">Фамилия</th>
-        <th scope="col">Отчество</th>
-        <th scope="col">Телефон</th>
-        <th scope="col">Эл.почта</th>
-        <th scope="col">Организация</th>
-        <th scope="col">Подразделение</th>
-        <th scope="col">Должность</th>
-        </thead>
-        <tbody>
+	<h4>Результаты обработки:</h4>
+	<table class="table table-striped">
+		<thead>
+		<th scope="col">#</th>
+		<th scope="col">Фамилия</th>
+		<th scope="col">Имя</th>
+		<th scope="col">Отчество</th>
+		<th scope="col">Телефон</th>
+		<th scope="col">Эл.почта</th>
+		<th scope="col">Организация</th>
+		<th scope="col">Подразделение</th>
+		<th scope="col">Должность</th>
+		</thead>
+		<tbody>
 
-            @for (int i = 0; i < result.Persons.Count; i++)
-            {
-                <tr>
-                    <th scope="row">@(i + 1)</th>
-                    <td>@result.Persons[i].FirstName</td>
-                    <td>@result.Persons[i].LastName</td>
-                    <td>@result.Persons[i].MiddleName</td>
-                    <td>@result.Persons[i].Phone</td>
-                    <td>@result.Persons[i].Email</td>
-                    <td>@result.Persons[i].Organization?.Name</td>
-                    <td>@result.Persons[i].Organization?.Subdivision</td>
-                    <td>@result.Persons[i].Position</td>
-                </tr>
-            }
-        </tbody>
-    </table>
+			@for (int i = 0; i < result.Persons.Count; i++)
+			{
+				<tr>
+					<th scope="row">@(i + 1)</th>
+					<td>@result.Persons[i].LastName</td>
+					<td>@result.Persons[i].FirstName</td>
+					<td>@result.Persons[i].MiddleName</td>
+					<td>@result.Persons[i].Phone</td>
+					<td>@result.Persons[i].Email</td>
+					<td>@result.Persons[i].Organization?.Name</td>
+					<td>@result.Persons[i].Organization?.Subdivision</td>
+					<td>@result.Persons[i].Position</td>
+				</tr>
+			}
+		</tbody>
+	</table>
 }
 
-
 @code {
-    ResultEntity result;
+	ResultEntity result;
 
-    [Parameter]
-    public int DocumentId { get; set; }
+	[Parameter]
+	public int DocumentId { get; set; }
 
 	protected override async Task OnInitializedAsync()
 	{
-        result = await ResultService.GetResultAsync(DocumentId);
+		result = await ResultService.GetResultAsync(DocumentId);
 	}
 }

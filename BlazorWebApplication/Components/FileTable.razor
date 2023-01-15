@@ -26,10 +26,12 @@ else
 
 			@for (int i = 0; i < docs.Length; i++)
 			{
+				var id = docs[i].Id;
 				bool isProcessed = docs[i].IsProcessed;
 				<tr>
 					<th scope="row">@(i + 1)</th>
-					<td>@docs[i].OriginFileName</td>
+					<td>@docs[i].OriginFileName <span><button @onclick="@(e => HandleDeleteButtonClick(id))">удалить</button></span>
+				</td>
 					<td style="text-align: center">@docs[i].UploadDate</td>
 					<td style="text-align: center">@docs[i].Size</td>
 					<td>@docs[i].PlainTextFilePath</td>
@@ -45,21 +47,15 @@ else
 
 					</td>
 					<td style="text-align: center">
-						@if (!docs[i].IsProcessed)
+						@if (docs[i].IsProcessed)
 						{
-							var id = docs[i].Id;
-							<button @onclick="@(e => DocumentProcessor.ProcessDocumentAsync(id))">
-								извлечь
-							</button>
+							<button @onclick="@(e => UriHelper.NavigateTo("results/" + id))">результат</button>
 						}
 						else
 						{
-							var id = docs[i].Id;
-							<button @onclick="@(e => UriHelper.NavigateTo("results/" + id))">
-								результат
-							</button>
+							<button @onclick="@(e => HandleExtractButtonClick(id))">извлечь</button>
 						}
-
+						
 					</td>
 				</tr>
 			}
@@ -68,10 +64,23 @@ else
 }
 
 @code {
+	@inject NavigationManager NavigationManager;
 	private DocumentModel[]? docs;
 
 	protected override async Task OnInitializedAsync()
 	{
+		docs = DocumentService.GetDocuments();
+	}
+
+	private async void HandleExtractButtonClick(int documentId)
+	{
+		await DocumentProcessor.ProcessDocumentAsync(documentId);
+		NavigationManager.NavigateTo("/");
+	}
+
+	private async void HandleDeleteButtonClick(int documentId)
+	{
+		await DocumentService.DeleteAsync(documentId);
 		docs = DocumentService.GetDocuments();
 	}
 

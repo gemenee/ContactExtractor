@@ -3,6 +3,7 @@ using PersonContactExtractor.Persistance;
 using Microsoft.EntityFrameworkCore;
 using PersonContactExtractor;
 using TextPreparation;
+using PersonContactExtractor.Services;
 
 namespace BlazorWebApplication
 {
@@ -20,6 +21,7 @@ namespace BlazorWebApplication
 			builder.Services.AddScoped<IResultService, ResultService>();
 			builder.Services.AddHttpClient();
 			builder.Services.AddScoped<IDocumentProcessor, DocumentProcessor>();
+			builder.Services.AddScoped<ITextPreprocessor, TextPreprocessor>();
 			builder.Services.AddSingleton<IDocxTextExtractor, DocxTextExtractor>();
 			builder.Services.AddDbContext<ContactExtractorContext>(options =>
 				options.UseSqlite("Filename=ContactExtractor.db"));
