@@ -1,0 +1,18 @@
+version: '3.4'
+
+services:
+  blazorwebapplication:
+    image: ${DOCKER_REGISTRY-}blazorwebapplication
+    build:
+      context: .
+      dockerfile: BlazorWebApplication/Dockerfile
+    depends_on:
+     - flask-extractor
+  flask-extractor:
+    build:
+      context: ../FlaskServer/
+      dockerfile: ../FlaskServer/Dockerfile
+    volumes:
+      - ../FlaskServer:/server
+    ports:
+      - 5001:8000

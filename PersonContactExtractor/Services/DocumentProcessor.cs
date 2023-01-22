@@ -31,13 +31,13 @@ public class DocumentProcessor : IDocumentProcessor
 		var workDirectory = new DirectoryInfo(AppContext.BaseDirectory);
 		var baseDirectory = workDirectory.Parent.Parent.Parent.FullName;
 		var txtFilePath = (await _contactExtractorContext.Documents.FirstOrDefaultAsync(d => d.Id == documentId)).PlainTextFilePath;
-
+		var serverAddress = "flask-extractor";
 		var request = new HttpRequestMessage(HttpMethod.Post,
-			"http://localhost:5000/extract");
-		var text = System.IO.File.ReadAllText(Path.Combine(baseDirectory, _fileDirectoryPath, txtFilePath));
+			$"http://host.docker.internal:5001/extract");
+		var text = File.ReadAllText(Path.Combine(baseDirectory, _fileDirectoryPath, txtFilePath));
 
 		text = _preprocessor.Process(text);
-
+		 
 		request.Content = new StringContent(text);
 
 		var client = _clientFactory.CreateClient();
