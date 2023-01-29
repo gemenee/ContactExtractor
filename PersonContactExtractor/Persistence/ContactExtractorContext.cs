@@ -6,6 +6,7 @@ namespace PersonContactExtractor.Persistance
     {
         public ContactExtractorContext(DbContextOptions<ContactExtractorContext> options) : base(options)
         {
+            Database.Migrate();
         }
 
         public DbSet<DocumentEntity> Documents { get; set; }

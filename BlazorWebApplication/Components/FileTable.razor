@@ -75,7 +75,7 @@ else
 	private async void HandleExtractButtonClick(int documentId)
 	{
 		await DocumentProcessor.ProcessDocumentAsync(documentId);
-		NavigationManager.NavigateTo("/");
+		docs = DocumentService.GetDocuments();
 	}
 
 	private async void HandleDeleteButtonClick(int documentId)

@@ -23,8 +23,9 @@ namespace BlazorWebApplication
 			builder.Services.AddScoped<IDocumentProcessor, DocumentProcessor>();
 			builder.Services.AddScoped<ITextPreprocessor, TextPreprocessor>();
 			builder.Services.AddSingleton<IDocxTextExtractor, DocxTextExtractor>();
+			Console.WriteLine(builder.Environment.ContentRootPath);
 			builder.Services.AddDbContext<ContactExtractorContext>(options =>
-				options.UseSqlite("Filename=ContactExtractor.db"));
+				options.UseSqlite($"Filename={builder.Environment.ContentRootPath}/ContactExtractor.db"));
 			builder.Services.AddScoped<IDocumentService, DocumentService>();
 
 			var app = builder.Build();
