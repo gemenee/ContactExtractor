@@ -1,0 +1,109 @@
+﻿@page "/file-upload"
+
+@using System
+@using System.IO
+@using Microsoft.AspNetCore.Hosting
+@using Microsoft.Extensions.Logging
+@using PersonContactExtractor.Services
+@inject ILogger<FileUpload> Logger
+@inject IWebHostEnvironment Environment
+@inject IDocumentService DocumentService
+
+<PageTitle>Загрузка файлов</PageTitle>
+
+<h3>Загрузка файлов</h3>
+
+<p>
+    <label>
+        Максимальный размер файлов:
+        <input type="number" @bind="maxFileSize"/>
+    </label>
+</p>
+
+<p>
+    <label>
+        Загрузите до @maxAllowedFiles файлов размерм до @maxFileSize байт:
+        <InputFile OnChange="@LoadFiles" multiple/>
+    </label>
+</p>
+
+@if (isLoading)
+{
+    <p>Uploading...</p>
+}
+else
+{
+    <ul>
+        @foreach (var file in loadedFiles)
+        {
+            <li>
+                <ul>
+                    <li>Name: @file.Name</li>
+                    <li>Last modified: @file.LastModified.ToString()</li>
+                    <li>Size (bytes): @file.Size</li>
+                    <li>Content type: @file.ContentType</li>
+                </ul>
+            </li>
+        }
+    </ul>
+    if (NotLoadedFiles.Any())
+    {
+        <p>Не загруженные файлы:</p>
+        <ul>
+            @foreach (var fileName in NotLoadedFiles)
+            {
+                <li>
+                    @fileName
+                </li>
+            }
+        </ul>
+    }
+}
+
+@code {
+    private List<IBrowserFile> loadedFiles = new();
+    private long maxFileSize = 1024 * 15;
+    private int maxAllowedFiles = 3;
+    private bool isLoading;
+    private List<string> NotLoadedFiles = new List<string>();
+
+    private async Task LoadFiles(InputFileChangeEventArgs e)
+    {
+        isLoading = true;
+        loadedFiles.Clear();
+
+        foreach (var file in e.GetMultipleFiles(maxAllowedFiles))
+        {
+            if (Path.GetExtension(file.Name) is ".docx" or ".doc")
+            {
+                try
+                {
+                    loadedFiles.Add(file);
+
+                    var trustedFileNameForFileStorage = Path.GetRandomFileName();
+                    var path = Path.Combine(Environment.ContentRootPath,
+                        "unsafe_uploads",
+                        trustedFileNameForFileStorage);
+
+                    await using (FileStream fs = new(path, FileMode.Create))
+                    {
+                        await file.OpenReadStream(maxFileSize).CopyToAsync(fs);
+                    }
+
+                    await DocumentService.AddAsync(path, file.Name);
+                }
+                catch (Exception ex)
+                {
+                    Logger.LogError("File: {Filename} Error: {Error}",
+                        file.Name, ex.Message);
+                }
+            }
+            else
+            {
+                NotLoadedFiles.Add(file.Name);
+            }
+        }
+
+        isLoading = false;
+    }
+}

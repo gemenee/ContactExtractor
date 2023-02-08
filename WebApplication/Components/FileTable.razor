@@ -1,0 +1,95 @@
+﻿@using WebApplication;
+@using PersonContactExtractor.Services
+@using PersonContactExtractor;
+@inject IDocumentService DocumentService
+@inject IDocumentProcessor DocumentProcessor
+@inject NavigationManager UriHelper
+
+@if (docs.Length == 0)
+{
+	<tr>
+		<td>нет загруженных документов</td>
+	</tr>
+}
+else
+{
+	<h4>Загруженные документы:</h4>
+	<table class="table table-striped">
+		<thead>
+		<th scope="col">#</th>
+		<th scope="col">Имя файла</th>
+		<th scope="col">Дата загрузки</th>
+		<th scope="col">Размер в байтах</th>
+		<th scope="col">Текстовый файл</th>
+		<th scope="col">Обработан</th>
+		<th scope="col"> </th>
+		</thead>
+		<tbody>
+
+			@for (int i = 0; i < docs.Length; i++)
+			{
+				var id = docs[i].Id;
+				bool isProcessed = docs[i].IsProcessed;
+				<tr>
+					<th scope="row">@(i + 1)</th>
+					<td>@docs[i].OriginFileName <span><button @onclick="@(e => HandleDeleteButtonClick(id))">удалить</button></span>
+				</td>
+					<td style="text-align: center">@docs[i].UploadDate</td>
+					<td style="text-align: center">@docs[i].Size</td>
+					<td>@docs[i].PlainTextFilePath</td>
+					<td style="text-align: center">
+						@if (docs[i].IsProcessed)
+						{
+							<span class="oi oi-check" aria-hidden="true"></span>
+						}
+						else
+						{
+							<span class="oi oi-dash" aria-hidden="true"></span>
+						}
+
+					</td>
+					<td style="text-align: center">
+						@if (docs[i].IsProcessed)
+						{
+							<button @onclick="@(e => UriHelper.NavigateTo("results/" + id))">результат</button>
+						}
+						else
+						{
+							<button @onclick="@(e => HandleExtractButtonClick(id))">извлечь</button>
+						}
+						
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+}
+
+@code {
+	@inject NavigationManager NavigationManager;
+	private DocumentModel[]? docs;
+
+	protected override async Task OnInitializedAsync()
+	{
+		docs = DocumentService.GetDocuments();
+	}
+
+	private async void HandleExtractButtonClick(int documentId)
+	{
+		await DocumentProcessor.ProcessDocumentAsync(documentId);
+		docs = DocumentService.GetDocuments();
+		StateHasChanged();
+	}
+
+	private async void HandleDeleteButtonClick(int documentId)
+	{
+		await DocumentService.DeleteAsync(documentId);
+		docs = DocumentService.GetDocuments();
+		StateHasChanged();
+	}
+
+	private void GoToPage(string pageAddress)
+	{
+
+	}
+}
