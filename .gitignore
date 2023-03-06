@@ -1,0 +1,13 @@
+﻿/.vs/PersonContactExtractor/DesignTimeBuild/.dtbcache.v2
+/WebApplication/bin
+/WebApplication/obj
+/WebApplication/Properties/PublishProfiles
+/obj
+/bin/Debug
+/.vs/PersonContactExtractor/FileContentIndex
+/.idea/.idea.PersonContactExtractor/.idea
+/WebApplication/WebApplication.csproj.user
+/PersonContactExtractor/obj/Release/net6.0
+/PersonContactExtractor/bin/Release/net6.0
+/WebApplication/unsafe_uploads
+/FlaskServer/obj/Docker

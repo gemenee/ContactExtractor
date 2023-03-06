@@ -29,7 +29,7 @@ public class DocumentProcessor : IDocumentProcessor
 		var txtFilePath = (await _contactExtractorContext.Documents.FirstOrDefaultAsync(d => d.Id == documentId)).PlainTextFilePath;
 		var serverAddress = "flask-extractor";
 		var request = new HttpRequestMessage(HttpMethod.Post,
-			$"http://127.0.0.1:5000/extract");
+			$"http://host.docker.internal:5000/extract");
 		var text = File.ReadAllText(Path.Combine(baseDirectory, _fileDirectoryPath, txtFilePath));
 
 		text = _preprocessor.Process(text);

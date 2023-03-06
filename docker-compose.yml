@@ -1,0 +1,14 @@
+version: '3.4'
+
+services:
+  flask-extractor:
+    build: ..\FlaskServer
+    volumes:
+      - ./FlaskServer:/server
+    ports:
+    - 5000:5000
+  webapplication:
+    image: ${DOCKER_REGISTRY-}webapplication
+    build:
+      context: .
+      dockerfile: WebApplication/Dockerfile

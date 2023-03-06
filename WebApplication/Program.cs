@@ -1,8 +1,5 @@
-using BlazorWebApplication.Data;
 using PersonContactExtractor.Persistance;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Builder;
-using PersonContactExtractor;
 using PersonContactExtractor.Services;
 
 namespace WebApplication;
