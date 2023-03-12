@@ -12,8 +12,11 @@ public class TextPreprocessor : ITextPreprocessor
 		var junkWordsPath = Path.Combine(baseDirectory, junkWordsFileName);
 		var junkWords = System.IO.File.ReadAllLines(junkWordsPath);
 
-		Regex rgxNonAlphaNum = new("[^a-zA-Zа-яА-Я0-9-@+_.]");
+		Regex rgxNonAlphaNum = new("[^a-zA-Zа-яА-Я0-9-@+_.«»\"]");
 		text = rgxNonAlphaNum.Replace(text, " ");
+
+		Regex rgxQuotation = new("[«»]");
+		text = rgxQuotation.Replace(text, "\"");
 		foreach(var line in junkWords)
 		{
 			if(!string.IsNullOrEmpty(line))

@@ -16,6 +16,7 @@ public class Program
         builder.Services.AddSingleton<IFileService>(_ => new FileService(builder.Environment.ContentRootPath));
         builder.Services.AddScoped<IResultService, ResultService>();
         builder.Services.AddHttpClient();
+        builder.Services.AddScoped<IResponseConverter, ResponseConverter>();
         builder.Services.AddScoped<IDocumentProcessor, DocumentProcessor>();
         builder.Services.AddScoped<ITextPreprocessor, TextPreprocessor>();
         builder.Services.AddSingleton<IDocxTextExtractor, DocxTextExtractor>();

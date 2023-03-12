@@ -1,25 +1,29 @@
-﻿using System.Text.Json;
+﻿using System.IO;
+using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using PersonContactExtractor.Persistance;
 using WebApplication.Dto;
 
 namespace PersonContactExtractor.Services;
 
-public class DocumentProcessor : IDocumentProcessor
+public partial class DocumentProcessor : IDocumentProcessor
 {
 	private readonly string _fileDirectoryPath = Path.Combine("unsafe_uploads", "plain_text");
 	private readonly IHttpClientFactory _clientFactory;
 	private readonly ContactExtractorContext _contactExtractorContext;
 	private readonly ITextPreprocessor _preprocessor;
+	private readonly IResponseConverter _responseConverter;
 
 	public DocumentProcessor(
 		IHttpClientFactory clientFactory,
 		ContactExtractorContext contactExtractorContext,
-		ITextPreprocessor textPreprocessor)
+		ITextPreprocessor textPreprocessor,
+		IResponseConverter responseConverter)
 	{
 		_clientFactory = clientFactory;
 		_contactExtractorContext = contactExtractorContext;
 		_preprocessor = textPreprocessor;
+		_responseConverter = responseConverter;
 	}
 
 	public async Task ProcessDocumentAsync(int documentId)
@@ -48,46 +52,18 @@ public class DocumentProcessor : IDocumentProcessor
 		try
 		{
 			using var responseStream = await response.Content.ReadAsStreamAsync();
+			//StreamReader reader = new StreamReader(responseStream); 
+			//var responseText = reader.ReadToEnd();
 			result = await JsonSerializer.DeserializeAsync<ResponseDto[]>(responseStream);
-			var convertedResult = await Convert(result, documentId);
+			var convertedResult = _responseConverter.Convert(result, documentId);
 			await SaveResultAsync(convertedResult);
+			var document = await _contactExtractorContext.Documents.SingleAsync(d => d.Id == documentId);
+			document.Processed = true;
 		}
-		catch
+		catch(Exception e)
 		{
-			throw new InvalidOperationException("Ошибка при обработке результата извлечения");
+			throw new InvalidOperationException("Ошибка при обработке результата извлечения: " + e.Message);
 		}
-	}
-
-	private async Task<ResultEntity> Convert(ResponseDto[] responses, int documentId)
-	{
-		var result = new ResultEntity
-		{
-			Persons = new System.Collections.Generic.List<PersonContacts>(),
-			DocumentId = documentId
-		};
-		foreach (var response in responses)
-		{
-			result.Persons.Add(new PersonContacts
-			{
-				FirstName = response.NameDto.First,
-				MiddleName = response.NameDto.Middle,
-				LastName = response.NameDto.Last,
-				Phone = response.Contacts.Phone,
-				Email = response.Contacts.Email,
-
-				Organization = response.Organization is not null ? new OrganizationEntity
-				{
-					Name = response.Organization.OrgName,
-					Subdivision = response.Organization.UnitDto.ToString()
-				} : null,
-				Position = response.Position?.ToString()
-			});
-		}
-
-		var document = await _contactExtractorContext.Documents.SingleAsync(d => d.Id == documentId);
-		document.Processed = true;
-
-		return result;
 	}
 
 	private async Task SaveResultAsync(ResultEntity resultEntity)

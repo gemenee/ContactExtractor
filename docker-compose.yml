@@ -3,8 +3,6 @@ version: '3.4'
 services:
   flask-extractor:
     build: ..\FlaskServer
-    volumes:
-      - ./FlaskServer:/server
     ports:
     - 5000:5000
   webapplication:

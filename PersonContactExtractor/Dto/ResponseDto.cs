@@ -6,14 +6,20 @@ namespace WebApplication.Dto;
 
 public class ResponseDto
 {
-  [JsonPropertyName("contacts")]
-  public ContactsDto Contacts { get; set; }
-  [JsonPropertyName("name")]
-  public NameDto NameDto { get; set; }
-  [JsonPropertyName("organization")]
-  public OrganizationDto Organization { get; set; }
-  [JsonPropertyName("position")]
-  public PositionDto Position { get; set; }
+    [JsonPropertyName("contacts")]
+    public ContactsDto Contacts { get; set; }
+
+    [JsonPropertyName("birthDate")]
+    public BirthDateDto BirthDate { get; set; }
+
+    [JsonPropertyName("name")]
+    public NameDto NameDto { get; set; }
+
+    [JsonPropertyName("organization")]
+    public OrganizationDto Organization { get; set; }
+
+    [JsonPropertyName("position")]
+    public PositionDto Position { get; set; }
 }
 
 /*
